@@ -49,3 +49,14 @@ def create_booking(email, type, source, destination, date, seat, price):
     )
 
     return booking_id
+# Get bookings of a user
+def get_user_bookings(email):
+
+    response = bookings_table.scan(
+        FilterExpression="email = :e",
+        ExpressionAttributeValues={
+            ":e": email
+        }
+    )
+
+    return response.get("Items", [])
