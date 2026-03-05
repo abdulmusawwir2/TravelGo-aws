@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash
 from services.dynamodb_service import create_user, get_user
-
 from services.sns_service import send_booking_email
 from services.dynamodb_service import create_booking
 
@@ -26,7 +25,8 @@ def register():
         password = request.form["password"]
 
         create_user(email, name, password)
-
+        
+        flash("Account created successfully! Please login.", "success")
         return redirect("/login")
 
     return render_template("register.html")
@@ -44,9 +44,11 @@ def login():
         user = get_user(email)
 
         if user and user["password"] == password:
-
             session["user"] = email
+            flash(f"Welcome back, {email}!", "success")
             return redirect("/dashboard")
+        else:
+            flash("Invalid email or password. Please try again.", "error")
 
     return render_template("login.html")
 
@@ -66,9 +68,9 @@ def dashboard():
 # LOGOUT
 @app.route("/logout")
 def logout():
-    session.pop("user",None)
+    session.pop("user", None)
+    flash("You have been logged out successfully.", "info")
     return redirect("/login")
-
 
 
 @app.route("/booking", methods=["GET","POST"])
@@ -100,17 +102,19 @@ From: {source}
 To: {destination}
 Date: {date}
 Seat: {seat}
-Price: {price}
+Price: ${price}
 """
 
         print("Sending SNS email...")
         send_booking_email(message)
         print("SNS email sent")
 
-        return "Booking Successful!"
+        # Flash success message and redirect to dashboard
+        flash(f"Booking Successful! Your {type} from {source} to {destination} has been confirmed. Booking ID: {booking_id}", "success")
+        return redirect("/dashboard")
 
     return render_template("booking.html")
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)

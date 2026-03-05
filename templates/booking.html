@@ -1,36 +1,659 @@
-<h2>Book Travel</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<form method="POST">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelGo - Book Your Journey</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <select name="type">
-        <option>Bus</option>
-        <option>Train</option>
-        <option>Flight</option>
-        <option>Hotel</option>
-    </select>
+        :root {
+            --primary: #FF6B35;
+            --secondary: #004E89;
+            --accent: #F7B801;
+            --dark: #1A1A2E;
+            --light: #FFF8F0;
+        }
 
-    <br><br>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    <input type="text" name="source" placeholder="Source">
+        /* Animated background elements */
+        .bg-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-    <br><br>
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            animation: float 20s infinite ease-in-out;
+        }
 
-    <input type="text" name="destination" placeholder="Destination">
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
 
-    <br><br>
+        .bg-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 3s;
+        }
 
-    <input type="date" name="date">
+        .bg-circle:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 10%;
+            left: 30%;
+            animation-delay: 6s;
+        }
 
-    <br><br>
+        @keyframes float {
 
-    <input type="text" name="seat" placeholder="Seat">
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.3;
+            }
 
-    <br><br>
+            50% {
+                transform: translateY(-50px) scale(1.1);
+                opacity: 0.5;
+            }
+        }
 
-    <input type="number" name="price" placeholder="Price">
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
 
-    <br><br>
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.6s ease-out;
+        }
 
-    <button type="submit">Book</button>
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
 
-</form>
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            color: white;
+            margin-bottom: 15px;
+            font-weight: 900;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+
+        .booking-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .travel-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .type-option {
+            position: relative;
+        }
+
+        .type-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .type-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 25px 15px;
+            background: rgba(0, 78, 137, 0.05);
+            border: 3px solid transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .type-label:hover {
+            background: rgba(0, 78, 137, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .type-option input[type="radio"]:checked+.type-label {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 78, 137, 0.1));
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+        }
+
+        .type-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .type-option input[type="radio"]:checked+.type-label .type-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .type-name {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1.1em;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            position: relative;
+            animation: slideInUp 0.5s ease-out backwards;
+        }
+
+        .form-group:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .form-group:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .form-group:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .form-group:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.3em;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 18px 20px 18px 55px;
+            border: 2px solid rgba(0, 78, 137, 0.15);
+            border-radius: 15px;
+            font-size: 1em;
+            font-family: 'DM Sans', sans-serif;
+            background: white;
+            transition: all 0.3s ease;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.15);
+            transform: translateY(-2px);
+        }
+
+        input[type="text"]:focus~.input-icon,
+        input[type="date"]:focus~.input-icon,
+        input[type="number"]:focus~.input-icon {
+            color: var(--primary);
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        input::placeholder {
+            color: rgba(26, 26, 46, 0.4);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23004E89' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            padding-right: 50px;
+            cursor: pointer;
+        }
+
+        .price-display {
+            background: linear-gradient(135deg, rgba(247, 184, 1, 0.1), rgba(255, 107, 53, 0.1));
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid var(--accent);
+            animation: slideInUp 0.5s ease-out 0.6s backwards;
+        }
+
+        .price-display .label {
+            font-size: 0.9em;
+            color: var(--secondary);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .price-display .amount {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: var(--dark);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 22px;
+            background: linear-gradient(135deg, var(--primary), #ff8c5f);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            font-size: 1.2em;
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.5s ease-out 0.7s backwards;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .submit-btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-link a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-link a:hover {
+            transform: translateX(-5px);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Success animation */
+        .success-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .success-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .success-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .booking-card {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .travel-types {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading state */
+        .submit-btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    </head>
+    
+    <body>
+        <div class="bg-elements">
+            <div class="bg-circle"></div>
+            <div class="bg-circle"></div>
+            <div class="bg-circle"></div>
+        </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Book Your Journey</h1>
+            <p>Choose your travel type and destination</p>
+        </div>
+
+        <div class="booking-card">
+            <form method="POST" id="bookingForm">
+                <div class="travel-types">
+                    <div class="type-option">
+                        <input type="radio" id="bus" name="type" value="Bus" checked>
+                        <label for="bus" class="type-label">
+                            <span class="type-icon">🚌</span>
+                            <span class="type-name">Bus</span>
+                        </label>
+                    </div>
+
+                    <div class="type-option">
+                        <input type="radio" id="train" name="type" value="Train">
+                        <label for="train" class="type-label">
+                            <span class="type-icon">🚂</span>
+                            <span class="type-name">Train</span>
+                        </label>
+                    </div>
+
+                    <div class="type-option">
+                        <input type="radio" id="flight" name="type" value="Flight">
+                        <label for="flight" class="type-label">
+                            <span class="type-icon">✈️</span>
+                            <span class="type-name">Flight</span>
+                        </label>
+                    </div>
+
+                    <div class="type-option">
+                        <input type="radio" id="hotel" name="type" value="Hotel">
+                        <label for="hotel" class="type-label">
+                            <span class="type-icon">🏨</span>
+                            <span class="type-name">Hotel</span>
+                        </label>
+                    </div>
+                    </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">From</label>
+                        <div class="input-wrapper">
+                            <input type="text" name="source" placeholder="Enter source city" required>
+                            <span class="input-icon">📍</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">To</label>
+                        <div class="input-wrapper">
+                            <input type="text" name="destination" placeholder="Enter destination" required>
+                            <span class="input-icon">🎯</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+                        <div class="input-wrapper">
+                            <input type="date" name="date" required>
+                            <span class="input-icon">📅</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Seat/Room</label>
+                        <div class="input-wrapper">
+                            <input type="text" name="seat" placeholder="e.g., A1, Suite 201" required>
+                            <span class="input-icon">💺</span>
+                        </div>
+                    </div>
+                    </div>
+
+                <div class="form-group">
+                    <label class="form-label">Price</label>
+                    <div class="input-wrapper">
+                        <input type="number" name="price" id="priceInput" placeholder="Enter price" required min="0" step="0.01">
+                        <span class="input-icon">💰</span>
+                    </div>
+                </div>
+
+                <div class="price-display">
+                    <div class="label">Total Amount</div>
+                    <div class="amount" id="priceDisplay">$0.00</div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Confirm Booking
+                </button>
+            </form>
+        </div>
+        
+        <div class="back-link">
+            <a href="/dashboard">← Back to Dashboard</a>
+        </div>
+        </div>
+        
+        <script>
+            // Update price display in real-time
+            const priceInput = document.getElementById('priceInput');
+            const priceDisplay = document.getElementById('priceDisplay');
+
+            priceInput.addEventListener('input', function () {
+                const value = parseFloat(this.value) || 0;
+                priceDisplay.textContent = '$' + value.toFixed(2);
+            });
+
+            // Set minimum date to today
+            const dateInput = document.querySelector('input[type="date"]');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+
+            // Form submission
+            document.getElementById('bookingForm').addEventListener('submit', function (e) {
+                const btn = this.querySelector('.submit-btn');
+                btn.classList.add('loading');
+                btn.textContent = 'Processing...';
+            });
+
+            // Add smooth transitions when changing travel type
+            const typeRadios = document.querySelectorAll('input[name="type"]');
+            typeRadios.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    // Could add different pricing logic or field changes based on type
+                    const icon = this.nextElementSibling.querySelector('.type-icon');
+                    icon.style.animation = 'none';
+                    setTimeout(() => {
+                        icon.style.animation = 'bounce 0.6s ease';
+                    }, 10);
+                });
+            });
+
+            // Parallax effect on mouse move
+            document.addEventListener('mousemove', (e) => {
+                const circles = document.querySelectorAll('.bg-circle');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+
+                circles.forEach((circle, index) => {
+                    const speed = (index + 1) * 15;
+                    const xOffset = (x - 0.5) * speed;
+                    const yOffset = (y - 0.5) * speed;
+                    circle.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+                });
+            });
+
+            // Auto-focus first input
+            window.addEventListener('load', () => {
+                document.querySelector('input[name="source"]').focus();
+            });
+        </script>
+        </body>
+        
+        </html>

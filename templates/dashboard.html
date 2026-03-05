@@ -1,19 +1,531 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelGo - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B35;
+            --secondary: #004E89;
+            --accent: #F7B801;
+            --dark: #1A1A2E;
+            --light: #FFF8F0;
+            --card-bg: white;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 78, 137, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(247, 184, 1, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px 0;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-nav {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 78, 137, 0.1));
+            border-radius: 50px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .user-email {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95em;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--primary), #ff8c5f);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95em;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .nav-btn.secondary {
+            background: white;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
+
+        .nav-btn.secondary:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-section {
+            margin-bottom: 50px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+
+        .welcome-section p {
+            font-size: 1.2em;
+            color: var(--secondary);
+            opacity: 0.8;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 78, 137, 0.1));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--secondary);
+            opacity: 0.7;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        .quick-actions {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 50px;
+            animation: fadeInUp 0.6s ease-out 0.5s backwards;
+        }
+
+        .quick-actions h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            color: var(--dark);
+            margin-bottom: 30px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .action-btn {
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.05), rgba(0, 78, 137, 0.05));
+            border: 2px solid transparent;
+            border-radius: 18px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .action-btn:hover::before {
+            left: 100%;
+        }
+
+        .action-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.15);
+        }
+
+        .action-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .action-title {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .action-desc {
+            color: var(--secondary);
+            opacity: 0.7;
+            font-size: 0.9em;
+        }
+
+        .recent-section {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            animation: fadeInUp 0.6s ease-out 0.6s backwards;
+        }
+
+        .recent-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            color: var(--dark);
+            margin-bottom: 30px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--secondary);
+            opacity: 0.6;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-state p {
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .welcome-section h1 {
+                font-size: 2.5em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Floating animation for action cards */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .action-btn:nth-child(odd):hover {
+            animation: float 2s ease-in-out infinite;
+        }
+    </style>
 </head>
-
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-nav">TravelGo</div>
+            <div class="nav-links">
+                <div class="user-info">
+                    <div class="user-avatar">{{ email[0].upper() if email else 'U' }}</div>
+                    <span class="user-email">{{ email }}</span>
+                </div>
+                <a href="/booking" class="nav-btn">Book Now</a>
+                <a href="/logout" class="nav-btn secondary">Logout</a>
+            </div>
+        </div>
+    </nav>
 
-    <h2>Welcome to TravelGo</h2>
+    <div class="container">
+        <div class="welcome-section">
+            <h1>Welcome Back! 👋</h1>
+            <p>Ready for your next adventure?</p>
+        </div>
 
-    <p>User: {{email}}</p>
-    <a href="/booking">Book Travel</a>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">✈️</div>
+                <div class="stat-value">0</div>
+                <div class="stat-label">Total Trips</div>
+            </div>
 
-    <a href="/logout">Logout</a>
+            <div class="stat-card">
+                <div class="stat-icon">🌍</div>
+                <div class="stat-value">0</div>
+                <div class="stat-label">Cities Visited</div>
+            </div>
 
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value">0</div>
+                <div class="stat-label">Reward Points</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value">$0</div>
+                <div class="stat-label">Total Saved</div>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="actions-grid">
+                <a href="/booking" class="action-btn">
+                    <span class="action-icon">🚌</span>
+                    <div class="action-title">Book Bus</div>
+                    <div class="action-desc">Travel by road</div>
+                </a>
+
+                <a href="/booking" class="action-btn">
+                    <span class="action-icon">🚂</span>
+                    <div class="action-title">Book Train</div>
+                    <div class="action-desc">Rail journeys</div>
+                </a>
+
+                <a href="/booking" class="action-btn">
+                    <span class="action-icon">✈️</span>
+                    <div class="action-title">Book Flight</div>
+                    <div class="action-desc">Fly anywhere</div>
+                </a>
+
+                <a href="/booking" class="action-btn">
+                    <span class="action-icon">🏨</span>
+                    <div class="action-title">Book Hotel</div>
+                    <div class="action-desc">Find stays</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="recent-section">
+            <h2>Recent Bookings</h2>
+            <div class="empty-state">
+                <div class="empty-state-icon">📋</div>
+                <p>No bookings yet. Start your journey today!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animate numbers counting up
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.innerHTML = end.toString().includes('$') ? '$' + value : value;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Trigger number animations on load
+        window.addEventListener('load', () => {
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach((stat, index) => {
+                setTimeout(() => {
+                    // This is just for demo - in real app these would be actual values
+                    const currentValue = parseInt(stat.textContent.replace(/[^0-9]/g, ''));
+                    animateValue(stat, 0, currentValue, 1000);
+                }, index * 100);
+            });
+        });
+
+        // Add parallax effect to stat cards
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.stat-card');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            cards.forEach((card, index) => {
+                const speed = (index + 1) * 2;
+                const xOffset = (x - 0.5) * speed;
+                const yOffset = (y - 0.5) * speed;
+                card.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+            });
+        });
+    </script>
 </body>
-
 </html>
