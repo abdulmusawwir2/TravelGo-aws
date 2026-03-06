@@ -237,6 +237,24 @@ color:#222;
 
         </div>
     </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div style="
+                    max-width:1200px;
+                    margin:20px auto;
+                    padding:15px;
+                    background:#d4edda;
+                    color:#155724;
+                    border-radius:10px;
+                    font-weight:600;
+                    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+                ">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 
     <div class="container">
 
