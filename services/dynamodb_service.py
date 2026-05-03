@@ -3,6 +3,7 @@
 
 # dynamodb = boto3.resource('dynamodb', region_name='ap-south-1')
 
+import uuid
 import boto3
 import os
 from dotenv import load_dotenv
