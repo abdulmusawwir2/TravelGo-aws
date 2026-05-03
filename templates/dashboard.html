@@ -1,4 +1,59 @@
-<!DOCTYPE html>
+<h2>Recent Bookings</h2>
+
+{% if bookings %}
+
+<div class="bookings-list">
+
+{% for b in bookings %}
+
+<div class="booking-card">
+
+    <div class="booking-row">
+        <span class="label">Booking ID:</span>
+        <span class="value">{{ b.id if b.id else "N/A" }}</span>
+    </div>
+
+    <div class="booking-row">
+        <span class="label">Status:</span>
+        <span class="value" style="color:green;">CONFIRMED</span>
+    </div>
+
+    <div class="booking-row">
+        <span class="label">Type:</span>
+        <span class="value">{{ b.type }}</span>
+    </div>
+
+    <div class="booking-row">
+        <span class="label">Route:</span>
+        <span class="value">{{ b.source }} → {{ b.destination }}</span>
+    </div>
+
+    <div class="booking-row">
+        <span class="label">Date:</span>
+        <span class="value">{{ b.date }}</span>
+    </div>
+
+    <div class="booking-row">
+        <span class="label">Seat:</span>
+        <span class="value">{{ b.seat }}</span>
+    </div>
+
+    <div class="booking-row">
+        <span class="label">Price:</span>
+        <span class="value">₹{{ b.price }}</span>
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+<p>No bookings yet</p>
+{% endif %}
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -376,4 +431,4 @@ color:#222;
 
 </body>
 
-</html>
+</html> -->

@@ -1,4 +1,86 @@
-<!DOCTYPE html>
+<!-- UPDATED BOOKING.HTML -->
+
+<div class="booking-card">
+<form method="POST" id="bookingForm">
+
+    <!-- Travel Types -->
+    <div class="travel-types">
+        <label><input type="radio" name="type" value="Bus" checked> 🚌 Bus</label>
+        <label><input type="radio" name="type" value="Train"> 🚂 Train</label>
+        <label><input type="radio" name="type" value="Flight"> ✈️ Flight</label>
+        <label><input type="radio" name="type" value="Hotel"> 🏨 Hotel</label>
+    </div>
+
+    <br>
+
+    <!-- Inputs -->
+    <input type="text" name="source" placeholder="From City" required>
+    <br><br>
+
+    <input type="text" name="destination" placeholder="To City" required>
+    <br><br>
+
+    <input type="date" name="date" required>
+    <br><br>
+
+    <!-- Seat Dropdown -->
+    <select name="seat" required>
+        <option value="">Select Seat Type</option>
+        <option value="Window">Window Seat</option>
+        <option value="Middle">Middle Seat</option>
+        <option value="Aisle">Aisle Seat</option>
+        <option value="Sleeper">Sleeper</option>
+        <option value="Luxury">Luxury</option>
+    </select>
+    <br><br>
+
+    <!-- Distance -->
+    <input type="number" id="distance" placeholder="Distance (km)" required>
+    <br><br>
+
+    <!-- Hidden Price -->
+    <input type="hidden" name="price" id="priceInput">
+
+    <!-- Price Display -->
+    <h2>Total Price: <span id="priceDisplay">₹0</span></h2>
+
+    <br>
+
+    <button type="submit" class="submit-btn">Confirm Booking</button>
+
+</form>
+</div>
+
+<script>
+const distance = document.getElementById("distance");
+const priceDisplay = document.getElementById("priceDisplay");
+const priceInput = document.getElementById("priceInput");
+
+function calculatePrice() {
+    let dist = parseFloat(distance.value) || 0;
+    let type = document.querySelector('input[name="type"]:checked').value;
+
+    let rate = 0;
+
+    if (type === "Bus") rate = 5;
+    else if (type === "Train") rate = 3;
+    else if (type === "Flight") rate = 10;
+    else if (type === "Hotel") rate = 2000;
+
+    let price = dist * rate;
+
+    priceDisplay.innerText = "₹" + price;
+    priceInput.value = price;
+}
+
+distance.addEventListener("input", calculatePrice);
+
+document.querySelectorAll('input[name="type"]').forEach(el => {
+    el.addEventListener("change", calculatePrice);
+});
+</script>
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -656,4 +738,8 @@
         </script>
         </body>
         
-        </html>
+        </html> -->
+
+
+
+
