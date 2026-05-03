@@ -8,7 +8,7 @@ TOPIC_ARN = "YOUR_TOPIC_ARN"
 def send_booking_email(message):
 
     sns.publish(
-        TopicArn="arn:aws:sns:us-east-1:796973503140:TravelGo",
+        TopicArn="arn:aws:sns:ap-south-1:219817681192:TravelGo",
         Message=message,
         Subject="TravelGo Booking Confirmation"
     )
