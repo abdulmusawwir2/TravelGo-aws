@@ -1,57 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f5f7fa;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>Dashboard</h2>
+
+<h3>Total Trips: {{ total_trips }}</h3>
+<h3>Cities Visited: {{ cities }}</h3>
+<h3>Reward Points: {{ reward_points }}</h3>
+<h3>Total Spent: ₹{{ total_saved }}</h3>
+
+<hr>
+
 <h2>Recent Bookings</h2>
-
-{% if bookings %}
-
-<div class="bookings-list">
 
 {% for b in bookings %}
 
-<div class="booking-card">
+<div class="card">
 
-    <div class="booking-row">
-        <span class="label">Booking ID:</span>
-        <span class="value">{{ b.id if b.id else "N/A" }}</span>
-    </div>
+<p><b>Booking ID:</b> {{ b.id if b.id else "N/A" }}</p>
+<p><b>Status:</b> <span style="color:green;">CONFIRMED</span></p>
 
-    <div class="booking-row">
-        <span class="label">Status:</span>
-        <span class="value" style="color:green;">CONFIRMED</span>
-    </div>
-
-    <div class="booking-row">
-        <span class="label">Type:</span>
-        <span class="value">{{ b.type }}</span>
-    </div>
-
-    <div class="booking-row">
-        <span class="label">Route:</span>
-        <span class="value">{{ b.source }} → {{ b.destination }}</span>
-    </div>
-
-    <div class="booking-row">
-        <span class="label">Date:</span>
-        <span class="value">{{ b.date }}</span>
-    </div>
-
-    <div class="booking-row">
-        <span class="label">Seat:</span>
-        <span class="value">{{ b.seat }}</span>
-    </div>
-
-    <div class="booking-row">
-        <span class="label">Price:</span>
-        <span class="value">₹{{ b.price }}</span>
-    </div>
+<p><b>Type:</b> {{ b.type }}</p>
+<p><b>From:</b> {{ b.source }}</p>
+<p><b>To:</b> {{ b.destination }}</p>
+<p><b>Date:</b> {{ b.date }}</p>
+<p><b>Seat:</b> {{ b.seat }}</p>
+<p><b>Price:</b> ₹{{ b.price }}</p>
 
 </div>
 
 {% endfor %}
 
-</div>
-
-{% else %}
-<p>No bookings yet</p>
-{% endif %}
+</body>
+</html>
 
 <!-- <!DOCTYPE html>
 <html lang="en">
