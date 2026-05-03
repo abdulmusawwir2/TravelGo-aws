@@ -4,17 +4,34 @@
 Youtube demo: https://youtu.be/apaxLLJ_Juw?si=UyRcjIKS1e6Z1HDi
 
 COMMANDS:
- 1  sudo apt update
-    3  sudo apt install python3
-    4  sudo apt install git
-    6  sudo apt install python3-venv -y
-    7  python3 -m venv venv
-    8  source venv/bin/activate
-   10  git clone https://github.com/abdulmusawwir2/TravelGo-aws.git
-   21  source venv/bin/activate
-   22  pip install -r requirements.txt
-   23  cd TravelGo-aws
-   25  python app.py
-   29  pip install flask boto3
-   30  python3 app.py
+
+# 1. Update system
+sudo apt update
+
+# 2. Install required packages
+sudo apt install python3 -y
+sudo apt install python3-venv -y
+sudo apt install git -y
+
+# 3. Clone your project
+git clone https://github.com/abdulmusawwir2/TravelGo-aws.git
+
+# 4. Go inside project folder
+cd TravelGo-aws
+
+# 5. Create virtual environment
+python3 -m venv venv
+
+# 6. Activate virtual environment
+source venv/bin/activate
+
+# 7. Install dependencies
+pip install -r requirements.txt
+
+# (Optional: if missing modules error comes)
+pip install flask boto3
+
+# 8. Run your app
+python3 app.py
+
 
