@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from services.dynamodb_service import create_user, get_user, create_booking, get_user_bookings
 from services.sns_service import send_booking_email
+from decimal import Decimal   # ✅ IMPORTANT FIX
 
 app = Flask(__name__)
 app.secret_key = "travelgo_secret"
 
 
-# 🔥 PRICE CALCULATION FUNCTION (NEW)
+# 🔥 PRICE CALCULATION FUNCTION
 def calculate_price(type, distance):
     if type == "Bus":
         return distance * 5
@@ -121,11 +122,14 @@ def booking():
         date = request.form["date"]
         seat = request.form["seat"]
 
-        # 🔥 GET DISTANCE (NEW)
+        # 🔥 GET DISTANCE
         distance = float(request.form["distance"])
 
-        # 🔥 BACKEND PRICE CALCULATION (IMPORTANT)
-        price = calculate_price(type, distance)
+        # 🔥 CALCULATE PRICE
+        calculated_price = calculate_price(type, distance)
+
+        # 🔥 CONVERT TO DECIMAL (CRITICAL FIX)
+        price = Decimal(str(calculated_price))
 
         # 🔥 SAVE BOOKING
         booking_id = create_booking(
@@ -149,7 +153,7 @@ To: {destination}
 Date: {date}
 Seat: {seat}
 Distance: {distance} km
-Price: ₹{price}
+Price: ₹{calculated_price}
 """
 
         print("Sending SNS email...")
