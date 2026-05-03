@@ -1,6 +1,6 @@
 import boto3
 
-sns = boto3.client("sns", region_name="us-east-1")
+sns = boto3.client("sns", region_name="ap-south-1")
 
 TOPIC_ARN = "YOUR_TOPIC_ARN"
 
