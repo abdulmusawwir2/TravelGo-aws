@@ -5,7 +5,7 @@ import time
 # CONFIG (EDIT THIS)
 # ======================
 REGION = "ap-south-1"
-EMAIL = "abdulmusawwir611@gmail.com"   # 🔥 put your email here
+EMAIL = "abdul.musawwir276@gmail.com"   # 🔥 put your email here
 
 # ======================
 # CLIENTS
