@@ -1,7 +1,18 @@
-import boto3
-import uuid
+# import boto3
+# import uuid
 
-dynamodb = boto3.resource('dynamodb', region_name='ap-south-1')
+# dynamodb = boto3.resource('dynamodb', region_name='ap-south-1')
+
+import boto3
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+dynamodb = boto3.resource(
+    'dynamodb',
+    region_name=os.getenv("AWS_REGION")
+)
 
 users_table = dynamodb.Table('Users')
 bookings_table = dynamodb.Table('Bookings')
