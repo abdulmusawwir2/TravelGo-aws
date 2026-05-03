@@ -40,10 +40,14 @@ python3 app.py
 
 <img width="886" height="720" alt="image" src="https://github.com/user-attachments/assets/097c8509-f026-48e1-874e-b30c1087005d" />
 
-# website live on : -<ec2ipaddress>:5000/login
+# website live on : ec2ipaddress:5000/login
 
 
 # create and add role for ec2
 dynamodbfull access
 snsfull access
+
+# .env
+AWS_REGION=ap-south-1
+SNS_TOPIC_ARN=arn:aws:sns:ap-south-1:219817681192:TravelGo
 
