@@ -1,14 +1,16 @@
 import boto3
+import os
+from dotenv import load_dotenv
 
-sns = boto3.client("sns", region_name="ap-south-1")
+load_dotenv()
 
-TOPIC_ARN = "YOUR_TOPIC_ARN"
+sns = boto3.client("sns", region_name=os.getenv("AWS_REGION"))
 
+TOPIC_ARN = os.getenv("SNS_TOPIC_ARN")
 
 def send_booking_email(message):
-
     sns.publish(
-        TopicArn="arn:aws:sns:ap-south-1:219817681192:TravelGo",
+        TopicArn=TOPIC_ARN,
         Message=message,
         Subject="TravelGo Booking Confirmation"
     )
