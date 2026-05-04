@@ -1,126 +1,5 @@
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TravelGo - Book Your Journey</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-
-<style>
-/* KEEPING YOUR SAME CSS */
-body {
-    font-family: 'DM Sans', sans-serif;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    padding: 40px;
-}
-
-.booking-card {
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
-    max-width: 700px;
-    margin: auto;
-}
-
-input, select {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-}
-
-.submit-btn {
-    background: #ff6b35;
-    color: white;
-    padding: 15px;
-    width: 100%;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-}
-</style>
-</head>
-
-<body>
-
-<div class="booking-card">
-
-<h2>Book Your Journey</h2>
-
-<form method="POST">
-
-<label>Travel Type</label><br>
-<input type="radio" name="type" value="Bus" checked> Bus
-<input type="radio" name="type" value="Train"> Train
-<input type="radio" name="type" value="Flight"> Flight
-<input type="radio" name="type" value="Hotel"> Hotel
-
-<br><br>
-
-<input type="text" name="source" placeholder="From City" required>
-<input type="text" name="destination" placeholder="To City" required>
-
-<input type="date" name="date" required>
-
-<!-- ✅ DROPDOWN -->
-<select name="seat" required>
-<option value="">Select Seat Type</option>
-<option value="Window">Window Seat</option>
-<option value="Middle">Middle Seat</option>
-<option value="Aisle">Aisle Seat</option>
-<option value="Sleeper">Sleeper</option>
-<option value="Luxury">Luxury</option>
-</select>
-
-<!-- ✅ DISTANCE -->
-<input type="number" name="distance" id="distance" placeholder="Distance (km)" required>
-
-<!-- ✅ HIDDEN PRICE -->
-<input type="hidden" name="price" id="priceInput">
-
-<!-- ✅ DISPLAY -->
-<h2>Total Price: <span id="priceDisplay">₹0</span></h2>
-
-<button type="submit" class="submit-btn">Confirm Booking</button>
-
-</form>
-
-</div>
-
-<script>
-const distance = document.getElementById("distance");
-const priceDisplay = document.getElementById("priceDisplay");
-const priceInput = document.getElementById("priceInput");
-
-function calculatePrice() {
-    let dist = parseFloat(distance.value) || 0;
-    let type = document.querySelector('input[name="type"]:checked').value;
-
-    let rate = 0;
-
-    if (type === "Bus") rate = 5;
-    else if (type === "Train") rate = 3;
-    else if (type === "Flight") rate = 10;
-    else if (type === "Hotel") rate = 2000;
-
-    let price = dist * rate;
-
-    priceDisplay.innerText = "₹" + price;
-    priceInput.value = price;
-}
-
-distance.addEventListener("input", calculatePrice);
-document.querySelectorAll('input[name="type"]').forEach(el => {
-    el.addEventListener("change", calculatePrice);
-});
-</script>
-
-</body>
-</html>
-
-<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -778,7 +657,7 @@ document.querySelectorAll('input[name="type"]').forEach(el => {
         </script>
         </body>
         
-        </html> -->
+        </html>
 
 
 
