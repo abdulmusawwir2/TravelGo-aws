@@ -1,61 +1,6 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Dashboard</title>
-
-<style>
-body {
-    font-family: Arial;
-    background: #f5f7fa;
-    padding: 20px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-}
-</style>
-
-</head>
-
-<body>
-
-<h2>Dashboard</h2>
-
-<h3>Total Trips: {{ total_trips }}</h3>
-<h3>Cities Visited: {{ cities }}</h3>
-<h3>Reward Points: {{ reward_points }}</h3>
-<h3>Total Spent: ₹{{ total_saved }}</h3>
-
-<hr>
-
-<h2>Recent Bookings</h2>
-
-{% for b in bookings %}
-
-<div class="card">
-
-<p><b>Booking ID:</b> {{ b.id if b.id else "N/A" }}</p>
-<p><b>Status:</b> <span style="color:green;">CONFIRMED</span></p>
-
-<p><b>Type:</b> {{ b.type }}</p>
-<p><b>From:</b> {{ b.source }}</p>
-<p><b>To:</b> {{ b.destination }}</p>
-<p><b>Date:</b> {{ b.date }}</p>
-<p><b>Seat:</b> {{ b.seat }}</p>
-<p><b>Price:</b> ₹{{ b.price }}</p>
-
-</div>
-
-{% endfor %}
-
-</body>
-</html>
-
-<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -433,4 +378,4 @@ color:#222;
 
 </body>
 
-</html> -->
+</html>
