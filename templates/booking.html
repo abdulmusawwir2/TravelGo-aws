@@ -1,4 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelGo - Train Booking</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B35;
+            --secondary: #004E89;
+            --accent: #F7B801;
+            --dark: #1A1A2E;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .travel-types {
+            margin-bottom: 35px;
+        }
+
+        .type-option {
+            max-width: 250px;
+            margin: auto;
+        }
+
+        .type-option input {
+            display: none;
+        }
+
+        .type-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(0, 78, 137, 0.08);
+            border: 3px solid var(--primary);
+            cursor: pointer;
+        }
+
+        .type-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .type-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 16px 16px 50px;
+            border-radius: 12px;
+            border: 2px solid #ddd;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .price-display {
+            background: rgba(247, 184, 1, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .price-display .label {
+            font-size: 0.9rem;
+            color: var(--secondary);
+        }
+
+        .price-display .amount {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, var(--primary), #ff8c5f);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .back-link a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media(max-width:768px) {
+            .booking-card {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>Book Your Train</h1>
+            <p>Fast and Secure Train Booking</p>
+        </div>
+
+        <div class="booking-card">
+
+            <form method="POST" id="bookingForm">
+
+                <div class="travel-types">
+
+                    <div class="type-option">
+                        <input type="radio" id="train" name="type" value="Train" checked>
+
+                        <label for="train" class="type-label">
+                            <span class="type-icon">🚂</span>
+                            <span class="type-name">Train</span>
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label class="form-label">From</label>
+
+                        <div class="input-wrapper">
+                            <input type="text" name="source" placeholder="Enter source city" required>
+                            <span class="input-icon">📍</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">To</label>
+
+                        <div class="input-wrapper">
+                            <input type="text" name="destination" placeholder="Enter destination city" required>
+                            <span class="input-icon">🎯</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+
+                        <div class="input-wrapper">
+                            <input type="date" name="date" required>
+                            <span class="input-icon">📅</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Seat Number</label>
+
+                        <div class="input-wrapper">
+                            <input type="text" name="seat" placeholder="e.g., A1" required>
+                            <span class="input-icon">💺</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="form-label">Price</label>
+
+                    <div class="input-wrapper">
+                        <input type="number" name="price" id="priceInput" placeholder="Enter ticket price"
+                            required>
+                        <span class="input-icon">💰</span>
+                    </div>
+
+                </div>
+
+                <div class="price-display">
+                    <div class="label">Total Amount</div>
+                    <div class="amount" id="priceDisplay">$0.00</div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Confirm Train Booking
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="back-link">
+            <a href="/dashboard">← Back to Dashboard</a>
+        </div>
+
+    </div>
+
+    <script>
+
+        const priceInput = document.getElementById('priceInput');
+        const priceDisplay = document.getElementById('priceDisplay');
+
+        priceInput.addEventListener('input', function () {
+            const value = parseFloat(this.value) || 0;
+            priceDisplay.textContent = '$' + value.toFixed(2);
+        });
+
+        const dateInput = document.querySelector('input[type="date"]');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+
+    </script>
+
+</body>
+
+</html>
+
+
+
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -661,4 +976,4 @@
 
 
 
-
+ -->
